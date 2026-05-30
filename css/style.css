@@ -942,6 +942,18 @@ body {
   font-size: 0.85rem;
 }
 
+.footer-admin-link {
+  color: inherit;
+  text-decoration: none;
+  margin-left: 8px;
+  transition: var(--transition);
+}
+
+.footer-admin-link:hover {
+  color: var(--accent-green);
+  text-decoration: underline;
+}
+
 /* ===== Responsive ===== */
 @media (max-width: 1024px) {
   .products-grid {
