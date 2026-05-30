@@ -20,4 +20,4 @@
 
 1. 將此資料夾推送至 GitHub Repository
 2. 進入 Settings → Pages → 選擇 `main` 分支
-3. 網站即可透過 `https://<username>.github.io/Beishan-Village/` 訪問
+3. 網站即可透過 `https://<username>.github.io/beishan-farm/` 訪問

@@ -1,0 +1,9 @@
+name = "beishan-admin-api"
+main = "src/index.js"
+compatibility_date = "2024-12-01"
+
+[vars]
+GITHUB_OWNER = "shennhuang"
+GITHUB_REPO = "beishan-farm"
+GITHUB_BRANCH = "main"
+CORS_ORIGIN = "*"

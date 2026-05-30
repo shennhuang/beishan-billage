@@ -11,3 +11,9 @@ node_modules/
 
 # Logs
 *.log
+
+# Cloudflare Worker secrets
+worker/.dev.vars
+
+# Cloudflare wrangler cache and state
+worker/.wrangler/
