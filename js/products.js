@@ -2,11 +2,21 @@
  * Products Module — 商品渲染
  */
 const Products = (() => {
+  // === Config ===
+  const API_BASE = localStorage.getItem('beishan_api_url') || 'https://beishan-admin-api.beishan-village.workers.dev';
   let productsData = [];
 
   async function load() {
-    const res = await fetch('data/products.json');
-    productsData = await res.json();
+    try {
+      const res = await fetch(`${API_BASE}/api/products`);
+      if (!res.ok) throw new Error();
+      const data = await res.json();
+      productsData = data.products;
+    } catch (err) {
+      console.warn('Failed to load products from API, falling back to static products.json', err);
+      const res = await fetch('data/products.json');
+      productsData = await res.json();
+    }
     return productsData;
   }
 

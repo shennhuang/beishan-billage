@@ -195,16 +195,20 @@ export default {
       return handleLogin(request, env, origin);
     }
 
-    // All other routes need JWT
+    // All other routes need JWT (except GET /api/products)
     if (path.startsWith('/api/')) {
-      const auth = request.headers.get('Authorization');
-      if (!auth || !auth.startsWith('Bearer ')) {
-        return jsonResponse({ error: '未授權' }, 401, origin);
-      }
+      const isGetProducts = path === '/api/products' && request.method === 'GET';
 
-      const payload = await verifyJWT(auth.slice(7), env.JWT_SECRET);
-      if (!payload) {
-        return jsonResponse({ error: 'Token 無效或已過期' }, 401, origin);
+      if (!isGetProducts) {
+        const auth = request.headers.get('Authorization');
+        if (!auth || !auth.startsWith('Bearer ')) {
+          return jsonResponse({ error: '未授權' }, 401, origin);
+        }
+
+        const payload = await verifyJWT(auth.slice(7), env.JWT_SECRET);
+        if (!payload) {
+          return jsonResponse({ error: 'Token 無效或已過期' }, 401, origin);
+        }
       }
 
       // Route
