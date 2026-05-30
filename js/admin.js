@@ -20,12 +20,8 @@ const Admin = (() => {
 
   // === Init ===
   function init() {
-    // Check existing JWT
-    const saved = sessionStorage.getItem(TOKEN_KEY);
-    if (saved) {
-      jwt = saved;
-      verifyAndEnter();
-    }
+    // 暫時免登入，直接進入後台管理面板
+    enterAdmin();
 
     // Login events
     $('btn-login').addEventListener('click', handleLogin);
