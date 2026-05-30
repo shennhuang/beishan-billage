@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beishan Village — 精選好物購物車</title>
+  <meta name="description" content="Beishan Village 精選 3C 好物商店，提供無線耳機、機械鍵盤、智慧手錶等高品質電子產品。">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Background Glow -->
+  <div class="bg-glow"></div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <a class="logo" href="#">
+        <div class="logo-icon">🏘️</div>
+        <span class="logo-text">Beishan Village</span>
+      </a>
+      <button class="cart-toggle" id="cart-toggle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        購物車
+        <span class="cart-badge" id="cart-badge">0</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>精選 3C 好物</h1>
+    <p>嚴選高品質電子產品，讓科技提升你的生活品質</p>
+  </section>
+
+  <!-- Products -->
+  <main class="products-section">
+    <div class="products-grid" id="products-grid"></div>
+  </main>
+
+  <!-- Cart Overlay -->
+  <div class="cart-overlay" id="cart-overlay"></div>
+
+  <!-- Cart Drawer -->
+  <aside class="cart-drawer" id="cart-drawer">
+    <div class="cart-header">
+      <h2>🛒 購物車</h2>
+      <button class="cart-close" id="cart-close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="cart-body" id="cart-body"></div>
+    <div class="cart-footer" id="cart-footer" style="display:none"></div>
+  </aside>
+
+  <!-- Checkout Modal -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal"></div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    <span></span>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>© 2026 Beishan Village. All rights reserved.</p>
+  </footer>
+
+  <!-- Scripts (order matters) -->
+  <script src="js/cart.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

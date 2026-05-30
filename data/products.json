@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "title": "無線藍牙耳機",
+    "description": "高品質主動降噪，40小時超長續航",
+    "image": "images/headphones.png",
+    "price": 1290,
+    "stock": 10
+  },
+  {
+    "id": 2,
+    "title": "機械式鍵盤",
+    "description": "RGB 背光，75% 緊湊配列，鋁合金框體",
+    "image": "images/keyboard.png",
+    "price": 2490,
+    "stock": 5
+  },
+  {
+    "id": 3,
+    "title": "智慧手錶",
+    "description": "AMOLED 圓形螢幕，鈦金屬錶殼，心率血氧偵測",
+    "image": "images/smartwatch.png",
+    "price": 3990,
+    "stock": 8
+  },
+  {
+    "id": 4,
+    "title": "無線充電盤",
+    "description": "15W 快充，玻璃面板，鋁合金邊框設計",
+    "image": "images/charger.png",
+    "price": 890,
+    "stock": 15
+  },
+  {
+    "id": 5,
+    "title": "攜帶式藍牙喇叭",
+    "description": "IPX7 防水，360度環繞音效，12小時續航",
+    "image": "images/speaker.png",
+    "price": 1690,
+    "stock": 12
+  },
+  {
+    "id": 6,
+    "title": "USB-C 集線器",
+    "description": "七合一擴充，支援 4K HDMI、USB 3.0、SD 讀卡",
+    "image": "images/usbhub.png",
+    "price": 790,
+    "stock": 20
+  }
+]
