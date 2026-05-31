@@ -149,7 +149,16 @@ const Admin = (() => {
       productsSha = data.sha;
       renderProducts();
     } catch (err) {
-      showToast('❌ ' + err.message);
+      console.warn('API 載入失敗，失敏至靜態 products.json', err);
+      try {
+        const res = await fetch('data/products.json');
+        products = await res.json();
+        productsSha = '';
+        renderProducts();
+        showToast('⚠️ 離線模式：顯示本地商品資料');
+      } catch {
+        showToast('❌ 無法載入商品資料');
+      }
     } finally {
       $('table-loading').style.display = 'none';
     }
@@ -163,16 +172,26 @@ const Admin = (() => {
     } else {
       $('table-empty').style.display = 'none';
       tbody.innerHTML = products.map(p => `
-        <tr data-id="${p.id}">
+        <tr data-id="${p.id}" class="${p.hidden ? 'row-hidden' : ''}">
           <td><img class="table-product-img" src="${p.image}" alt="${p.title}"></td>
           <td class="table-product-title">${p.title}</td>
           <td>${p.description}</td>
           <td class="table-product-price">NT$${p.price.toLocaleString()}</td>
-          <td>${p.stock}</td>
+          <td>
+            <span class="status-badge ${p.hidden ? 'status-hidden' : 'status-visible'}">
+              ${p.hidden ? '🚫 隱藏' : '✅ 顯示'}
+            </span>
+          </td>
           <td>
             <div class="table-actions">
               <button class="btn-icon" title="編輯" onclick="Admin.editProduct(${p.id})">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              </button>
+              <button class="btn-icon ${p.hidden ? 'btn-icon-warning' : ''}" title="${p.hidden ? '取消隱藏' : '隱藏'}" onclick="Admin.toggleHidden(${p.id})">
+                ${p.hidden
+                  ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`
+                  : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`
+                }
               </button>
               <button class="btn-icon danger" title="刪除" onclick="Admin.deleteProduct(${p.id})">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
@@ -186,7 +205,7 @@ const Admin = (() => {
     $('stat-total').textContent = products.length;
     const avg = products.length ? Math.round(products.reduce((s, p) => s + p.price, 0) / products.length) : 0;
     $('stat-avg-price').textContent = `NT$${avg.toLocaleString()}`;
-    $('stat-total-stock').textContent = products.reduce((s, p) => s + p.stock, 0);
+    $('stat-hidden').textContent = products.filter(p => p.hidden).length;
   }
 
   // === Product Modal ===
@@ -197,7 +216,6 @@ const Admin = (() => {
     $('form-title').value = product ? product.title : '';
     $('form-desc').value = product ? product.description : '';
     $('form-price').value = product ? product.price : '';
-    $('form-stock').value = product ? product.stock : '';
     pendingImageFile = null;
 
     const previewImg = $('preview-img');
@@ -272,7 +290,6 @@ const Admin = (() => {
       const title = $('form-title').value.trim();
       const description = $('form-desc').value.trim();
       const price = parseInt($('form-price').value);
-      const stock = parseInt($('form-stock').value);
       let imagePath = '';
 
       if (pendingImageFile) {
@@ -290,12 +307,12 @@ const Admin = (() => {
       if (editingId) {
         const idx = products.findIndex(p => p.id === editingId);
         if (idx >= 0) {
-          products[idx] = { ...products[idx], title, description, price, stock };
+          products[idx] = { ...products[idx], title, description, price };
           if (imagePath) products[idx].image = imagePath;
         }
       } else {
         const maxId = products.length ? Math.max(...products.map(p => p.id)) : 0;
-        products.push({ id: maxId + 1, title, description, image: imagePath || 'images/placeholder.png', price, stock });
+        products.push({ id: maxId + 1, title, description, image: imagePath || 'images/placeholder.png', price, hidden: false });
       }
 
       showToast('💾 儲存中...');
@@ -347,6 +364,30 @@ const Admin = (() => {
     }
   }
 
+  // === Toggle Hidden ===
+  async function toggleHidden(id) {
+    const idx = products.findIndex(p => p.id === id);
+    if (idx < 0) return;
+    const originalHidden = products[idx].hidden;
+    products[idx] = { ...products[idx], hidden: !originalHidden };
+    const p = products[idx];
+    try {
+      showToast('💾 更新中...');
+      const result = await apiFetch('/api/products', {
+        method: 'PUT',
+        body: JSON.stringify({ products, sha: productsSha, message: `${p.hidden ? '隱藏' : '顯示'}: ${p.title}` }),
+      });
+      productsSha = result.sha;
+      renderProducts();
+      showToast(p.hidden ? '🚫 「' + p.title + '」已隱藏' : '✅ 「' + p.title + '」已顯示');
+    } catch (err) {
+      // API 失敗：還原本地狀態，避免後台顯示與實際資料不符
+      products[idx] = { ...products[idx], hidden: originalHidden };
+      renderProducts();
+      showToast('❌ 更新失敗：' + (err.message || '請檢查網路連線'));
+    }
+  }
+
   // === Toast ===
   let toastTimer;
   function showToast(msg) {
@@ -358,5 +399,5 @@ const Admin = (() => {
   }
 
   document.addEventListener('DOMContentLoaded', init);
-  return { editProduct, deleteProduct };
+  return { editProduct, deleteProduct, toggleHidden };
 })();

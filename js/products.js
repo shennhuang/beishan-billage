@@ -11,11 +11,12 @@ const Products = (() => {
       const res = await fetch(`${API_BASE}/api/products`);
       if (!res.ok) throw new Error();
       const data = await res.json();
-      productsData = data.products;
+      productsData = data.products.filter(p => !p.hidden);
     } catch (err) {
       console.warn('Failed to load products from API, falling back to static products.json', err);
       const res = await fetch('data/products.json');
-      productsData = await res.json();
+      const all = await res.json();
+      productsData = all.filter(p => !p.hidden);
     }
     return productsData;
   }
@@ -25,7 +26,6 @@ const Products = (() => {
       <div class="product-card" id="product-${p.id}">
         <div class="product-image-wrap">
           <img src="${p.image}" alt="${p.title}" loading="lazy">
-          <span class="product-stock-badge">庫存 ${p.stock}</span>
         </div>
         <div class="product-info">
           <h3 class="product-title">${p.title}</h3>

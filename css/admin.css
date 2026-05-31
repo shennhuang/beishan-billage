@@ -641,3 +641,43 @@ body {
   .products-table th:nth-child(3),
   .products-table td:nth-child(3) { display: none; }
 }
+
+/* ===== Hidden Product Feature ===== */
+.row-hidden td {
+  opacity: 0.45;
+}
+
+.row-hidden .table-product-img {
+  filter: grayscale(80%);
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.status-visible {
+  background: var(--green-bg);
+  color: var(--green);
+}
+
+.status-hidden {
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+
+.btn-icon-warning {
+  border-color: var(--warm) !important;
+  color: var(--warm) !important;
+}
+
+.btn-icon-warning:hover {
+  background: rgba(193,127,62,0.08) !important;
+}
+
