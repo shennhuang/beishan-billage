@@ -195,9 +195,8 @@ export default {
       return handleLogin(request, env, origin);
     }
 
-    // All other routes (JWT 驗證暫時停用)
+    // All other routes need JWT (except GET /api/products)
     if (path.startsWith('/api/')) {
-      /* ===== TOKEN 驗證暫時停用 =====
       const isGetProducts = path === '/api/products' && request.method === 'GET';
 
       if (!isGetProducts) {
@@ -211,7 +210,6 @@ export default {
           return jsonResponse({ error: 'Token 無效或已過期' }, 401, origin);
         }
       }
-      ===== TOKEN 驗證暫時停用 ===== */
 
       // Route
       if (path === '/api/products' && request.method === 'GET') {

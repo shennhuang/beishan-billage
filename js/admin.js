@@ -20,8 +20,12 @@ const Admin = (() => {
 
   // === Init ===
   function init() {
-    // 暫時免登入，直接進入後台管理面板
-    enterAdmin();
+    // 嘗試從 session 還原登入狀態
+    const savedToken = sessionStorage.getItem(TOKEN_KEY);
+    if (savedToken) {
+      jwt = savedToken;
+      verifyAndEnter();
+    }
 
     // Login events
     $('btn-login').addEventListener('click', handleLogin);
