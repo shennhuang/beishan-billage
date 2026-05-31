@@ -199,6 +199,34 @@
     </div>
   </div>
 
+  <!-- ===== Product Preview Modal ===== -->
+  <div class="modal-overlay" id="preview-modal" style="display:none">
+    <div class="modal preview-modal-inner">
+      <div class="modal-header">
+        <h2 id="preview-modal-title">商品詳情</h2>
+        <button class="modal-close" id="preview-modal-close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body preview-body">
+        <div class="preview-image-wrap">
+          <img id="preview-product-img" src="" alt="" class="preview-product-img">
+        </div>
+        <div class="preview-meta">
+          <span class="status-badge" id="preview-status-badge"></span>
+          <h3 class="preview-product-name" id="preview-product-name"></h3>
+          <p class="preview-product-desc" id="preview-product-desc"></p>
+          <div class="preview-price-row">
+            <span class="preview-price-label">售價</span>
+            <span class="preview-price-value" id="preview-product-price"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ===== Toast ===== -->
   <div class="admin-toast" id="admin-toast">
     <span class="toast-icon" id="toast-icon">✅</span>

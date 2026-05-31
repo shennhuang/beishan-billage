@@ -17,8 +17,11 @@ const App = (() => {
   let toastTimer;
 
   function init() {
-    // Load and render products
-    Products.load().then(() => Products.render(productsGrid));
+    // Load and render products, then init detail modal
+    Products.load().then(() => {
+      Products.render(productsGrid);
+      Products.initDetailModal();
+    });
 
     // Bind events
     cartToggle.addEventListener('click', openCart);

@@ -39,6 +39,8 @@ const Admin = (() => {
     $('product-form').addEventListener('submit', handleProductSubmit);
     $('delete-cancel').addEventListener('click', closeDeleteModal);
     $('delete-confirm').addEventListener('click', handleDeleteConfirm);
+    $('preview-modal-close').addEventListener('click', closePreviewModal);
+    $('preview-modal').addEventListener('click', e => { if (e.target === $('preview-modal')) closePreviewModal(); });
 
     // Image upload
     const imagePreview = $('image-preview');
@@ -59,7 +61,7 @@ const Admin = (() => {
     // Close modals
     $('product-modal').addEventListener('click', e => { if (e.target === $('product-modal')) closeProductModal(); });
     $('delete-modal').addEventListener('click', e => { if (e.target === $('delete-modal')) closeDeleteModal(); });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeProductModal(); closeDeleteModal(); } });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeProductModal(); closeDeleteModal(); closePreviewModal(); } });
   }
 
   // === API helper ===
@@ -184,6 +186,9 @@ const Admin = (() => {
           </td>
           <td>
             <div class="table-actions">
+              <button class="btn-icon" title="查看" onclick="Admin.previewProduct(${p.id})">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              </button>
               <button class="btn-icon" title="編輯" onclick="Admin.editProduct(${p.id})">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
               </button>
@@ -245,6 +250,24 @@ const Admin = (() => {
     $('delete-modal').style.display = 'flex';
   }
   function closeDeleteModal() { $('delete-modal').style.display = 'none'; deleteTargetId = null; }
+
+  // === Preview Modal ===
+  function previewProduct(id) {
+    const p = products.find(p => p.id === id);
+    if (!p) return;
+    $('preview-modal-title').textContent = p.title;
+    $('preview-product-img').src = p.image;
+    $('preview-product-img').alt = p.title;
+    $('preview-product-name').textContent = p.title;
+    $('preview-product-desc').textContent = p.description;
+    $('preview-product-price').textContent = `NT$${p.price.toLocaleString()}`;
+    const badge = $('preview-status-badge');
+    badge.className = `status-badge ${p.hidden ? 'status-hidden' : 'status-visible'}`;
+    badge.textContent = p.hidden ? '🚫 隱藏中' : '✅ 顯示中';
+    $('preview-modal').style.display = 'flex';
+  }
+
+  function closePreviewModal() { $('preview-modal').style.display = 'none'; }
 
   // === Image ===
   function handleImageSelect(e) {
@@ -399,5 +422,5 @@ const Admin = (() => {
   }
 
   document.addEventListener('DOMContentLoaded', init);
-  return { editProduct, deleteProduct, toggleHidden };
+  return { editProduct, deleteProduct, toggleHidden, previewProduct };
 })();

@@ -63,6 +63,36 @@
     <div class="cart-footer" id="cart-footer" style="display:none"></div>
   </aside>
 
+  <!-- Product Detail Modal -->
+  <div class="product-detail-overlay" id="product-detail-overlay">
+    <div class="product-detail-modal" id="product-detail-modal">
+      <button class="product-detail-close" id="product-detail-close" aria-label="關閉">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+      <div class="pdm-image-wrap">
+        <img id="pdm-image" src="" alt="" loading="lazy">
+      </div>
+      <div class="pdm-info">
+        <p class="pdm-tag" id="pdm-tag">精選農產</p>
+        <h2 class="pdm-title" id="pdm-title"></h2>
+        <p class="pdm-desc" id="pdm-desc"></p>
+        <div class="pdm-divider"></div>
+        <div class="pdm-footer">
+          <div class="pdm-price-wrap">
+            <span class="pdm-price-label">售價</span>
+            <span class="pdm-price" id="pdm-price"></span>
+          </div>
+          <button class="pdm-btn-add" id="pdm-btn-add">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            加入購物車
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Checkout Modal -->
   <div class="modal-overlay" id="modal-overlay">
     <div class="modal"></div>
